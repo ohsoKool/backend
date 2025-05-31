@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id            String         @id @default(uuid())
+  name          String
+  email         String         @unique
+  password      String
+  mobile_number String?
+  gender        String?
+  profilePic    String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  refreshToken  String?        // For "Remember Me" functionality
+  lastLoginAt   DateTime?      // Track last login time
+  progress      Progress[]
+}
+
+model Exercise {
+  id          Int            @id @default(autoincrement())
+  title       String
+  description String
+  starterCode String
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  totalSteps  Int           @default(1)
+  progress    Progress[]
+}
+
+model Progress {
+  id                 String   @id @default(uuid())
+  user               User     @relation(fields: [userId], references: [id])
+  userId             String
+  exercise           Exercise @relation(fields: [exerciseId], references: [id])
+  exerciseId         Int
+  currentStep        Int      @default(1)
+  answersGiven       String   // JSON string of answers
+  timeSpent          Int      @default(0)
+  completionPercentage Float   @default(0)
+  sessionData        String?  // JSON string of session data
+  lastUpdated        DateTime @default(now())
+
+  @@unique([userId, exerciseId])
+}
