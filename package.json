@@ -4,11 +4,12 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start":"node src/index.js",
-    "dev": " nodemon src/index.js",
+    "start": "node index.js",
+    "dev": "nodemon src/index.js",
     "seed": "node src/data/seed.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "prisma generate",
+    "build": "npm install && npx prisma migrate deploy && npx prisma generate",
+    "postinstall": "npx prisma generate",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
@@ -26,5 +27,8 @@
   "devDependencies": {
     "nodemon": "^3.1.10",
     "prisma": "^6.8.2"
+  },
+  "prisma": {
+    "schema": "prisma/schema.prisma"
   }
 }
