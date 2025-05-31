@@ -18,13 +18,13 @@ tokenRouter.get("/refresh-token", async (req, res) => {
     const user = await db.user.findFirst({
       where: {
         id: decoded.id,
-        refreshToken: token
-      }
+        refreshToken: token,
+      },
     });
 
     if (!user) {
       return res.status(401).json({
-        message: "Invalid refresh token"
+        message: "Invalid refresh token",
       });
     }
 
@@ -38,20 +38,20 @@ tokenRouter.get("/refresh-token", async (req, res) => {
     // Set the new access token cookie
     res.cookie("accessToken", newAccessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       maxAge: 15 * 60 * 1000, // 15 minutes
-      sameSite: "lax"
+      sameSite: "none",
     });
 
-    return res.json({ 
+    return res.json({
       success: true,
-      message: "Access token refreshed successfully" 
+      message: "Access token refreshed successfully",
     });
   } catch (error) {
-    console.error('Token refresh error:', error);
+    console.error("Token refresh error:", error);
     return res.status(401).json({
       success: false,
-      message: "Invalid or expired refresh token"
+      message: "Invalid or expired refresh token",
     });
   }
 });

@@ -34,16 +34,16 @@ export const tokenCreation = (user, res, rememberMe = false) => {
 
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       maxAge: accessTokenExpirySec,
-      sameSite: "lax",
+      sameSite: "none",
     });
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       maxAge: refreshTokenExpirySec,
-      sameSite: "lax",
+      sameSite: "none",
     });
 
     console.log("Tokens created successfully for user:", user.id);
