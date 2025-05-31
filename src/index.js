@@ -14,12 +14,14 @@ dotenv.config();
 const app = express();
 
 // CORS configuration
-app.use(cors({
-  origin: 'http://localhost:5173', // Vite's default port
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Accept', 'Authorization']
-}));
+app.use(
+  cors({
+    origin: "https://techlearn-frontend-w4xd.onrender.com", // Vite's default port
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Accept", "Authorization"],
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser());
